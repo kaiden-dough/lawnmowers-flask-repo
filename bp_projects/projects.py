@@ -21,3 +21,7 @@ def theo():
 @app_projects.route('/Mani the Mandrill/')
 def mani():
     return render_template("mani.html")
+
+@app_projects.route('/kush/')
+def kush():
+    return render_template("kush.html")
