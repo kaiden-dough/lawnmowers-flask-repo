@@ -7,67 +7,48 @@
 <!- This is a replacement block for Body in base.html -->
 {% block body %}
     <!- Try building a new body here, bootstrap is a wise choice ->
-    <div class="px-5 py-5 mx-auto">
-        <h1 class="text-primary"><strong>Lawnmowers</strong></h1>
-        <p class="text-secondary">Members: Kaiden, Theo, Kush, Mani</p>
-        <p class="text-secondary">Thank you for visiting!</p>
-    </div>
+    <body style="background-color:black;">
+      <div class="px-5 py-5 mx-auto">
+          <h1 style="color:red;"><strong>Lawnmowers</strong></h1>
+          <p style="color:white;">Members: Kaiden, Theo, Kush, Mani</p>
+          <p style="color:white;">Thank you for visiting!</p>
+      </div>
+  </body>
 
     <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  width: 40%;
-}
-
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
-.container {
-  padding: 2px 16px;
-}
-</style>
-</head>
-<body>
-
-<div class="card">
-  <img src="img_avatar.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Theo Huntalas</b></h4> 
-    <p>Scrum Master</p> 
-  </div>
+  <div class="row">
+    <div class="col-3">
+        <div class="card">
+          <h5 class="card-title">Theo</h5>
+          <p style="color:black;">Scrum Master</p>
+          <img class="card-img-top" src="{{ url_for('static', filename='assets/lawnmower.jpg') }}" alt="Lawnmower" height="250">
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+          <h5 class="card-title">Kush</h5>
+          <p style="color:black;">DevOps</p>
+          <img class="card-img-top" src="{{ url_for('static', filename='assets/kush.jpg') }}" alt="Lawnmower" height="250">
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+          <h5 class="card-title">Kaiden</h5>
+          <p style="color:black;">Back-end</p>
+          <img class="card-img-top" src="{{ url_for('static', filename='assets/kaiden.png') }}" alt="Lawnmower" height="250">
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+          <h5 class="card-title">Mani</h5>
+          <p style="color:black;">Front-end</p>
+          <img class="card-img-top" src="{{ url_for('static', filename='assets/mani.png') }}" alt="Lawnmower" height="250">
+        </div>
+    </div>
+    
 </div>
-
-<div class="card">
-  <img src="kush.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Kush Sironi</b></h4> 
-    <p>Team Member</p> 
-  </div>
 </div>
-
-<div class="card">
-  <img src="mani.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Mani Taleban</b></h4> 
-    <p>Team Member</p> 
-  </div>
-</div>
-
-<div class="card">
-  <img src="kaiden.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Kaiden Do</b></h4> 
-    <p>Team Member</p> 
-  </div>
-</div>
-
-</body>
 </html> 
 
 {% endblock %}
