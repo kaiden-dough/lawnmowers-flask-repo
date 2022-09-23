@@ -34,36 +34,45 @@
 </style>
 </head>
 <body>
-
-<div class="card">
-  <img src="img_avatar.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Theo Huntalas</b></h4> 
-    <p>Scrum Master</p> 
+<div class="row">
+  <div class="col-3">
+    <div class="card">
+      <img src="{{ url_for('static', filename='assets/teddy.jpg') }}" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>Theo Huntalas</b></h4> 
+        <p>Scrum Master</p> 
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="card">
-  <img src="kush.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Kush Sironi</b></h4> 
-    <p>Team Member</p> 
+  <div class="col-3">
+    <div class="card">
+      <img src="{{ url_for('static', filename='assets/kush.png') }}" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>Kush Sirohi</b></h4> 
+        <p>Dev Ops</p> 
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="card">
-  <img src="mani.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Mani Taleban</b></h4> 
-    <p>Team Member</p> 
+  <div class="col-3">
+    <div class="card">
+      <img src="{{ url_for('static', filename='assets/mani.png') }}" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>Mani Taleban</b></h4> 
+        <p>Frontend Developer</p> 
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="card">
-  <img src="kaiden.png" alt="Avatar" style="width:100%">
-  <div class="container">
-    <h4><b>Kaiden Do</b></h4> 
-    <p>Team Member</p> 
+  <div class="col-3">
+    <div class="card">
+      <img src="{{ url_for('static', filename='assets/kaiden.png') }}" alt="Avatar" style="width:100%">
+      <div class="container">
+        <h4><b>Kaiden Do</b></h4> 
+        <p>Backend Developer</p> 
+      </div>
+    </div>
   </div>
 </div>
 
