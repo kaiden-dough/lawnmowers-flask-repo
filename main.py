@@ -21,6 +21,10 @@ def index():
 def team():
     return render_template("team.html")
 
+@app.route('/AgileMethodologyDiagram/')  # connects /stub/ URL to stub() function
+def amd():
+    return render_template("amd.html")
+
 # this runs the application on the development server
 if __name__ == "__main__":
     app.run(debug=True)

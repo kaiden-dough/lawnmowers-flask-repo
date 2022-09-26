@@ -25,3 +25,7 @@ def mani():
 @app_projects.route('/kush/')
 def kush():
     return render_template("kush.html")
+
+@app_projects.route('/AgileMethodologyDiagram/')
+def amd():
+    return render_template("amd.html")
