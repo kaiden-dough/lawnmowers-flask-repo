@@ -25,6 +25,10 @@ def team():
 def amd():
     return render_template("amd.html")
 
+@app.route('/GroupProjectPlan/')  # connects /stub/ URL to stub() function
+def plan():
+    return render_template("plan.html")
+
 # this runs the application on the development server
 if __name__ == "__main__":
     app.run(debug=True)

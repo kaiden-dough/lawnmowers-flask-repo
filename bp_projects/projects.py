@@ -29,3 +29,7 @@ def kush():
 @app_projects.route('/AgileMethodologyDiagram/')
 def amd():
     return render_template("amd.html")
+
+@app_projects.route('/GroupProjectPlan/')
+def plan():
+    return render_template("plan.html")
