@@ -44,20 +44,14 @@ This HTML is setup as as a Jinja2 layout, coders use layouts for:
 </body>
 
 {% block background %}
-    <script src="{{ url_for('static', filename='js/three.r119.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vanta.cells.min.js') }}"></script>
-    <script>
-        VANTA.CELLS({
-            el: "body",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00
-        })
-    </script>
+    <style>
+    body {
+      background-image: 
+    url("/static/assets/jj.jpg");
+      background-position: 50% 50%;
+      background-repeat: repeat;
+    }
+    </style>
 {% endblock %}
 
 </html>
