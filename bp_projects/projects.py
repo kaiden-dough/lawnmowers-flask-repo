@@ -30,6 +30,10 @@ def kush():
 def amd():
     return render_template("amd.html")
 
+@app_projects.route('/Pong/')
+def pong():
+    return render_template("pong.html")
+
 @app_projects.route('/GroupProjectPlan/')
 def plan():
     return render_template("plan.html")

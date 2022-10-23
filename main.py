@@ -25,6 +25,10 @@ def team():
 def amd():
     return render_template("amd.html")
 
+@app.route('/Pong/')  # connects /stub/ URL to stub() function
+def pong():
+    return render_template("pong.html")
+
 @app.route('/GroupProjectPlan/')  # connects /stub/ URL to stub() function
 def plan():
     return render_template("plan.html")
