@@ -31,7 +31,7 @@ def pong():
 
 @app.route('/Blackjack/')  # connects /stub/ URL to stub() function
 def blackjack():
-    return render_template("blackjack.html")
+    return render_template("games/blackjack.html")
 
 @app.route('/GroupProjectPlan/')  # connects /stub/ URL to stub() function
 def plan():
