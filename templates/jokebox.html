@@ -1,0 +1,23 @@
+<!-- Extending the predefined project layout -->
+{% extends "layouts/base.html" %}
+
+<!- This variable sets name of browser tab  -->
+{% set project = "Team" %}
+
+<!- This is a replacement block for Body in base.html -->
+{% block body %}
+    <!- Try building a new body here, bootstrap is a wise choice ->
+    <body style="background-color:black;"></body>
+
+    <!DOCTYPE html>
+<html>
+    <h1 style="font-size:60px;">Jokebox</h1>
+
+    <h1 style="color:blue;">A Blue Heading</h1>
+</html> 
+
+{% endblock %}
+
+<!- This is turning off birds background from base.html -->
+{% block background %}
+{% endblock %}
