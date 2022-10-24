@@ -82,7 +82,7 @@ def addTrfaFalse(id):
 
 # Pretty Print joke
 def printTrfa(trfa):
-    print(trfa['id'], trfa['joke'], "\n", "true:", joke['true'], "\n", "false:", joke['false'], "\n")
+    print(trfa['id'], trfa['joke'], "\n", "true:", trfa['true'], "\n", "false:", trfa['false'], "\n")
 
 # Number of jokes
 def countTrfa():
