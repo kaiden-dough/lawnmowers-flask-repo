@@ -39,6 +39,10 @@ def blackjack():
 def plan():
     return render_template("plan.html")
 
+@app.route('/JokeboxGame/')  # connects /stub/ URL to stub() function
+def jokebox():
+    return render_template("jokebox.html")
+
 # this runs the application on the development server
 if __name__ == "__main__":
     app.run(debug=True)
