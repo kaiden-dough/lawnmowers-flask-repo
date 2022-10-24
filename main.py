@@ -3,9 +3,11 @@ from flask import render_template  # import render_template from "public" flask 
 # import "packages" from "this" project
 from __init__ import app  # Definitions initialization
 from api import app_api # Blueprint import api definition
+from trfa import app_api1
 from bp_projects.projects import app_projects # Blueprint directory import projects definition
 
 app.register_blueprint(app_api) # register api routes
+app.register_blueprint(app_api1)
 app.register_blueprint(app_projects) # register api routes
 
 @app.errorhandler(404)  # catch for URL not found
@@ -24,6 +26,14 @@ def team():
 @app.route('/AgileMethodologyDiagram/')  # connects /stub/ URL to stub() function
 def amd():
     return render_template("amd.html")
+
+@app.route('/Pong/')  # connects /stub/ URL to stub() function
+def pong():
+    return render_template("pong.html")
+
+@app.route('/Blackjack/')  # connects /stub/ URL to stub() function
+def blackjack():
+    return render_template("games/blackjack.html")
 
 @app.route('/GroupProjectPlan/')  # connects /stub/ URL to stub() function
 def plan():
