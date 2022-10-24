@@ -61,7 +61,7 @@ class TrfaAPI:
     api1.add_resource(_UpdateJeer, '/worst/<int:id>')
     
 if __name__ == "__main__": 
-    server = "https://lawnmowers.nighthawkcodescrums.gq/api/trfa/" # run local
+    server = 'https://lawnmowers.nighthawkcodescrums.gq' # run local
     # server = 'https://flask.nighthawkcodingsociety.com' # run from web
     url = server + "/api/trfa"
     responses = []  # responses list
