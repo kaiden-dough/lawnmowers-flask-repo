@@ -124,8 +124,8 @@
             console.log(card);            
             bob = ("{url_for('static', filename='assets/cards/"+card+".png')}");
             da = "{"+bob+"}";
-            console.log(da);
-            cardImg.src = ""+da+""; // did not work though, it kept on switching the symbols to ASCII symbols
+            console.log(JSON.stringify(da));
+            cardImg.src = (JSON.stringify(da)); // did not work though, it kept on switching the symbols to ASCII symbols
             // also in the terminal on vscode said that is was GET and I am confused
 
             dealerSum += cardValue(card);
@@ -164,5 +164,5 @@
     }
 </script>
 {% endblock %}
-{% block background %}D
+{% block background %}
 {% endblock %}
