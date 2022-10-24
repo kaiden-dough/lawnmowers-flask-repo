@@ -7,15 +7,29 @@
 <!- This is a replacement block for Body in base.html -->
 {% block body %}
     <!- Try building a new body here, bootstrap is a wise choice ->
-    <body style="background-color:black;"></body>
 
-    <!DOCTYPE html>
-<html>
-    <h1 style="font-size:60px;">Jokebox</h1>
-
-    <h1 style="color:blue;">A Blue Heading</h1>
-</html> 
-
+    <html>
+        <head>
+        <style>
+        h1 {
+          border: 2px solid powderblue;
+          padding: 30px;
+          text-align: center;
+          color: purple
+          
+        }
+        </style>
+        </head>
+        <body>
+        
+        
+        
+         <h1 style="font-size:60px;" "color:blue;">Jokebox</h1>
+    
+        
+        </body>
+        </html>
+        
 {% endblock %}
 
 <!- This is turning off birds background from base.html -->

@@ -33,3 +33,7 @@ def amd():
 @app_projects.route('/GroupProjectPlan/')
 def plan():
     return render_template("plan.html")
+
+@app_projects.route('/JokeboxGame/')
+def jokebox():
+    return render_template("jokebox.html")
