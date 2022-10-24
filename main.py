@@ -29,6 +29,10 @@ def amd():
 def pong():
     return render_template("pong.html")
 
+@app.route('/Blackjack/')  # connects /stub/ URL to stub() function
+def blackjack():
+    return render_template("blackjack.html")
+
 @app.route('/GroupProjectPlan/')  # connects /stub/ URL to stub() function
 def plan():
     return render_template("plan.html")

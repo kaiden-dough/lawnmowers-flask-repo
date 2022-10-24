@@ -34,6 +34,10 @@ def amd():
 def pong():
     return render_template("pong.html")
 
+@app_projects.route('/Blackjack/')
+def blackjack():
+    return render_template("blackjack.html")
+
 @app_projects.route('/GroupProjectPlan/')
 def plan():
     return render_template("plan.html")
