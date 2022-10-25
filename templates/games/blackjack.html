@@ -1,5 +1,5 @@
 {% extends "layouts/base.html" %} <!-- To keep the same format and navbar -->
-{% set project = "Blackjack" %}
+{% set project = "blackjack" %}
 {% block body %}
     <body style="background-color:green;"> <!-- green background and title -->
       <div class="px-5 py-5 mx-auto">
@@ -62,6 +62,8 @@
         <button class="button" id="stand" width="100" height="50">Stand</button>
         <!-- who wins -->
         <p id="results"></p>
+        <br>
+        <button class="button" id="reset" width="100" height="50">Reset</button>
     </body>
 </html> 
 
@@ -84,6 +86,10 @@
         buildDeck();
         shuffleDeck();
         startGame();
+    }
+
+    function reset(){
+        location.reload();
     }
 
     // the deck, no shuffled
@@ -115,23 +121,121 @@
     
     function startGame() {
         hidden = deck.pop(); //takes the last of the array and removes it to not reuse cards
+        console.log("Dealerhidden:"+hidden);
         dealerSum += cardValue(hidden);
         dealerAce += aceCheck(hidden);
+
+        for (let i = 0; i < 1; i++) {
+            let cardImg = document.createElement("img");
+            let card = deck.pop();
+            console.log("Dealer:"+card);
+            test = ("{url_for('static', filename='assets/cards/"+card+".png')}");
+            add = "{"+test+"}";
+            console.log(JSON.stringify(add));
+            cardImg.src = (JSON.stringify(add));
+            dealerSum += cardValue(card);
+            dealerAce += aceCheck(card);
+            document.getElementById("dealer-cards").append(cardImg);
+        }
+        console.log("Dealer:"+dealerSum);
+
+        for (let i = 0; i < 2; i++) {
+            let cardImg = document.createElement("img");
+            let card = deck.pop();
+            console.log("Player:"+card);
+            test = ("{url_for('static', filename='assets/cards/"+card+".png')}");
+            add = "{"+test+"}";
+            console.log(JSON.stringify(add));
+            cardImg.src = (JSON.stringify(add));
+            yourSum += cardValue(card);
+            yourAce += aceCheck(card);
+            document.getElementById("your-cards").append(cardImg);
+        }
+        console.log("Player:"+yourSum);
+        document.getElementById("hit").addEventListener("click", hit);
+        document.getElementById("stand").addEventListener("click", stand);
+        document.getElementById("reset").addEventListener("click", reset);
+    }
+
+    function hit() {
+        //alert("hit") //see if the button works
+        if (!canHit) { //if cannot hit then it doesn't let you
+            return; 
+        }
+        else {
+            let cardImg = document.createElement("img");
+            let card = deck.pop();
+            console.log("Player:"+card);
+            test = ("{url_for('static', filename='assets/cards/"+card+".png')}");
+            add = "{"+test+"}";
+            console.log(JSON.stringify(add));
+            cardImg.src = (JSON.stringify(add));
+            yourSum += cardValue(card);
+            yourAce += aceCheck(card);
+            document.getElementById("your-cards").append(cardImg);
+        }
+        
+
+        if (reduceAce(yourSum, yourAce)>21) {
+            canHit = false;
+        }
+        console.log("Player:"+reduceAce(yourSum, yourAce));
+    }
+    function stand() {
+        
 
         while (dealerSum < 17) { //dealer must keep hitting if sum is less than 17
             let cardImg = document.createElement("img"); // this was supposed to make new cards appear
             let card = deck.pop();
+            console.log("Dealer:"+card);
             console.log(card);            
-            bob = ("{url_for('static', filename='assets/cards/"+card+".png')}");
-            da = "{"+bob+"}";
-            console.log(JSON.stringify(da));
-            cardImg.src = (JSON.stringify(da)); // did not work though, it kept on switching the symbols to ASCII symbols
+            test = ("{url_for('static', filename='assets/cards/"+card+".png')}");
+            add = "{"+test+"}";
+            console.log(JSON.stringify(add));
+            cardImg.src = (JSON.stringify(add)); // did not work though, it kept on switching the symbols to ASCII symbols
             // also in the terminal on vscode said that is was GET and I am confused
 
             dealerSum += cardValue(card);
             dealerAce += aceCheck(card);
             document.getElementById("dealer-cards").append(cardImg); //supposed to add the card onto the screen
         }
+        console.log("Dealer:"+dealerSum);
+
+        dealerSum = reduceAce(dealerSum, dealerAce);
+        yourSum = reduceAce(yourSum, yourAce);
+
+        canHit = false;
+        document.getElementById("hidden").src = "{{url_for('static', filename='assets/cards/"+hidden+".png')}}";
+
+        let message = "";
+        if (yourSum > 21) { //over 21 u lose
+            message = "You Lose!";
+        }
+        else if (dealerSum > 21) { //dealer over, but you not u win
+            message = "You win!";
+        }
+        else if (yourSum == dealerSum) { // if both equal 21, a tie
+            message = "Tie!";
+        }
+        else if (yourSum > dealerSum) { // not above or 21, and greater than dealer = u win
+            message = "You Win!";
+        }
+        else if (yourSum < dealerSum) { // below dealer, u lose
+            message = "You Lose!";
+        }
+        console.log(message);
+        document.getElementById("dealer-sum").innerText = dealerSum; //display score and sums
+        document.getElementById("your-sum").innerText = yourSum;
+        document.getElementById("results").innerText = message;
+        //alert("stand") //see if the button works
+    }
+
+    function reduceAce(sum, ace) {
+        while (sum > 21 && ace > 0) {
+            sum -= 10;
+            ace -= 1;
+        }
+        return sum;
     }
 
     function cardValue(card) { // gets the value of the card
@@ -152,15 +256,6 @@
             return 1; // for later use to determine if the ace is 1 or 11
         }
         return 0;
-    }
-
-    document.getElementById("hit").addEventListener("click", hit); //button tests
-    document.getElementById("stand").addEventListener("click", stand); //button test
-    function hit() {
-        alert("hit") //see if the button works
-    }
-    function stand() {
-        alert("stand") //see if the button works
     }
 </script>
 {% endblock %}
