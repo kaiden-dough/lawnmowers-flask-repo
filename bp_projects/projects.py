@@ -37,3 +37,7 @@ def plan():
 @app_projects.route('/JokeboxGame/')
 def jokebox():
     return render_template("jokebox.html")
+
+@app_projects.route('/PongGame/')
+def pong():
+    return render_template("pong.html")
