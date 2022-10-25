@@ -90,11 +90,13 @@
     var canHit = true;
     var bet = 100;
     var score = 0;
+    var canBet = true;
 
     // load in functions, game set up
     window.onload = function() {
         document.getElementById("bet").innerText = bet;
         document.getElementById("score").innerText = score;
+        canBet = true;
         betFunction();
     }
 
@@ -115,14 +117,20 @@
     }
 
     function up(){
-        if (parseInt(bet)<500){
+        if (!canBet) {
+            return;
+        }
+        if ((parseInt(bet)<500) && (canBet = true)){
             bet = parseInt(bet) + 50
         }
         document.getElementById("bet").innerText = bet;
     }
 
     function down(){
-        if (parseInt(bet)>50){
+        if (!canBet) {
+            return;
+        }
+        if ((parseInt(bet)>50)){
             bet = parseInt(bet) - 50
         }
         document.getElementById("bet").innerText = bet;
@@ -198,6 +206,8 @@
     }
 
     function hit() {
+        canBet = false;
+        console.log(canBet);
         //alert("hit") //see if the button works
         if (!canHit) { //if cannot hit then it doesn't let you
             return; 
@@ -222,8 +232,8 @@
         console.log("Player:"+reduceAce(yourSum, yourAce));
     }
     function stand() {
-        
-
+        canBet = true;
+        console.log(canBet);
         while (dealerSum < 17) { //dealer must keep hitting if sum is less than 17
             let cardImg = document.createElement("img"); // this was supposed to make new cards appear
             let card = deck.pop();
