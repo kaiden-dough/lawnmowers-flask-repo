@@ -39,13 +39,20 @@
                 fetch('https://lawnmowers.nighthawkcodescrums.gq/api/jokes/')
                 .then((response) => response.json())
                 .then((data) => console.log(data));
-                
+                console.log(response.json())
+
+                function displayJoke() {
+                    document.getElementById("djb").innerHTML = "Hello World";
+                }
 
              </script>
         
         
-         <h1 style="font-size:60px;" "color:blue;">Jokebox</h1>
-    
+        <h1 style="font-size:60px;" "color:blue;">Jokebox</h1>
+        
+        <button onclick="displayJoke()">Button</button>
+
+        <p id="djb"></p>
         
         </body>
         </html>
