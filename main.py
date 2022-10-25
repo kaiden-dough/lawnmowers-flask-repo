@@ -31,7 +31,7 @@ def amd():
 def pong():
     return render_template("pong.html")
 
-@app.route('/Blackjack/')  # connects /stub/ URL to stub() function
+@app.route('/blackjack/')  # connects /stub/ URL to stub() function
 def blackjack():
     return render_template("games/blackjack.html")
 
