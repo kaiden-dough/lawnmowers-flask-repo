@@ -150,25 +150,6 @@
         document.getElementById("stand").addEventListener("click", stand);
     }
 
-    function cardValue(card) { // gets the value of the card
-        let cardData = card.split("-"); // converts to an array Ex: ["5", "D"], rid of "-"
-        let value = cardData[0]; // takes only the first item
-
-        if(isNaN(value)) { //if it is not a number, so it is either J, Q, K, or A
-            if (value=="A"){ // if it is an ace
-                return 11; //set the value as 11 for now
-            }
-            return 10; //else, the value is 10 because it is J, Q, K
-        }
-        return parseInt(value); // it is a number, so just return the number
-    }
-    
-    function aceCheck(card) { //check if they have an Ace
-        if(card[0] == "A") {
-            return 1; // for later use to determine if the ace is 1 or 11
-        }
-        return 0;
-    }
     function hit() {
         //alert("hit") //see if the button works
         if (!canHit) { //if cannot hit then it doesn't let you
@@ -248,6 +229,26 @@
             ace -= 1;
         }
         return sum;
+    }
+
+    function cardValue(card) { // gets the value of the card
+        let cardData = card.split("-"); // converts to an array Ex: ["5", "D"], rid of "-"
+        let value = cardData[0]; // takes only the first item
+
+        if(isNaN(value)) { //if it is not a number, so it is either J, Q, K, or A
+            if (value=="A"){ // if it is an ace
+                return 11; //set the value as 11 for now
+            }
+            return 10; //else, the value is 10 because it is J, Q, K
+        }
+        return parseInt(value); // it is a number, so just return the number
+    }
+    
+    function aceCheck(card) { //check if they have an Ace
+        if(card[0] == "A") {
+            return 1; // for later use to determine if the ace is 1 or 11
+        }
+        return 0;
     }
 </script>
 {% endblock %}
