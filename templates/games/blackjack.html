@@ -94,8 +94,11 @@
 
     // load in functions, game set up
     window.onload = function() {
+        document.getElementById("bet").innerText = bet;
+        document.getElementById("score").innerText = score;
         reset();
         betFunction();
+        
     }
 
     function betFunction() {
@@ -144,14 +147,11 @@
         hidden;
         deck;
         canHit = true;
-        bet = 100;
-        score = 0;
         canBet = true;
-        document.getElementById("bet").innerText = bet;
-        document.getElementById("score").innerText = score;
         document.getElementById("results").innerText = "";
         document.getElementById("dealer-sum").innerText = "";
-        document.getElementById("your-sum").innerText = "";
+        document.getElementById("your-sum").innerText = "";       
+          
     }
 
     // the deck, no shuffled
