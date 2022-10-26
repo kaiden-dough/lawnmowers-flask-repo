@@ -8,54 +8,63 @@
 {% block body %}
     <!- Try building a new body here, bootstrap is a wise choice ->
 
-    <html>
-        <head>
+<html>
+    <head>
         <style>
         h1 {
           border: 5px solid rgb(0, 0, 0);
           padding: 20px;
           text-align: center;
-          color: rgb(72, 8, 163)
-          
+          color: #356d22;
         }
 
-        .button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
+        button {
+            background-color: #356d22;
+            color: rgb(255, 255, 255);
             text-align: center;
             text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
+            display: block;
+            font-size: 50px;
+            margin: auto;
             cursor: pointer;
+            padding: 25px 100px;
         }
+
+        /* Green */
+        .success {
+            border-color: #04AA6D;
+        }
+
+        .success:hover {
+            background-color: #068959;
+            color: #ffffff;
+        }
+
         </style>
-        </head>
-        <body>
-             <script>
+    </head>
+    <body>
+        <script>
+            fetch('https://lawnmowers.nighthawkcodescrums.gq/api/jokes/')
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+            console.log(response.json())
+            function displayJoke() {
+                document.getElementById("djb").innerHTML = "Hello World";
+            }
 
-                fetch('https://lawnmowers.nighthawkcodescrums.gq/api/jokes/')
-                .then((response) => response.json())
-                .then((data) => console.log(data));
-                console.log(response.json())
-
-                function displayJoke() {
-                    document.getElementById("djb").innerHTML = "Hello World";
-                }
-
-             </script>
+        </script>
         
-        
+        <div>
+    
         <h1 style="font-size:60px;" "color:blue;">Jokebox</h1>
         
-        <button onclick="displayJoke()">Button</button>
+        <button class="button success" onclick="displayJoke()">Play</button>
 
         <p id="djb"></p>
-        
-        </body>
-        </html>
+
+        </div>
+    </body>
+</html>
         
 {% endblock %}
 
