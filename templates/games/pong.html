@@ -1,207 +1,279 @@
 {% extends "layouts/base.html" %} <!-- To keep the same format and navbar -->
 {% set project = "pong" %}
 {% block body %}
-    <body style="background-color:black;"> <!-- black background and title -->
-      <div class="px-5 py-5 mx-auto">
-          <h1 style="color:white;"><strong>Pong</strong></h1>
-      </div>
-  </body>
-
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Basic Pong HTML Game</title>
-  <meta charset="UTF-8">
-  <style>
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
+	<meta charset="UTF-8">
+	<title>Pong</title>
 
-  body {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  </style>
+	<!-- Basic styling, centering the canvas -->
+	<style>
+	canvas {
+		display: block;
+		position: absolute;
+		margin: auto;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+	</style>
 </head>
 <body>
-<canvas width="750" height="585" id="game"></canvas>
 <script>
-const canvas = document.getElementById('game');
-const context = canvas.getContext('2d');
-const grid = 15;
-const paddleHeight = grid * 5; // 80
-const maxPaddleY = canvas.height - grid - paddleHeight;
+var
 
-var paddleSpeed = 6;
-var ballSpeed = 5;
+/**
+ * Constants
+ */
+WIDTH  = 700,
+HEIGHT = 600,
 
-const leftPaddle = {
-  // start in the middle of the game on the left side
-  x: grid * 2,
-  y: canvas.height / 2 - paddleHeight / 2,
-  width: grid,
-  height: paddleHeight,
+pi = Math.PI,
 
-  // paddle velocity
-  dy: 0
+UpArrow   = 38,
+DownArrow = 40,
+
+/**
+ * Game elements
+ */
+canvas,
+ctx,
+keystate,
+
+/**
+ * The player paddle
+ * 
+ * @type {Object}
+ */
+player = {
+	x: null,
+	y: null,
+
+	width:  20,
+	height: 100,
+
+	/**
+	 * Update the position depending on pressed keys
+	 */
+	update: function() {
+		if (keystate[UpArrow]) this.y -= 7;
+		if (keystate[DownArrow]) this.y += 7;
+		// keep the paddle inside of the canvas
+		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
+	},
+
+	/**
+	 * Draw the player paddle to the canvas
+	 */
+	draw: function() {
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+	}
+},
+
+/**
+ * The ai paddle
+ * 
+ * @type {Object}
+ */
+ai = {
+	x: null,
+	y: null,
+
+	width:  20,
+	height: 100,
+
+	/**
+	 * Update the position depending on the ball position
+	 */
+	update: function() {
+		// calculate ideal position
+		var desty = ball.y - (this.height - ball.side)*0.5;
+		// ease the movement towards the ideal position
+		this.y += (desty - this.y) * 0.1;
+		// keep the paddle inside of the canvas
+		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
+	},
+
+	/**
+	 * Draw the ai paddle to the canvas
+	 */
+	draw: function() {
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+	}
+},
+
+/**	
+ * The ball object
+ * 
+ * @type {Object}
+ */
+ball = {
+	x:   null,
+	y:   null,
+	vel: null,
+
+	side:  20,
+	speed: 12,
+
+	/**
+	 * Serves the ball towards the specified side
+	 * 
+	 * @param  {number} side 1 right
+	 *                       -1 left
+	 */
+	serve: function(side) {
+		// set the x and y position
+		var r = Math.random();
+		this.x = side===1 ? player.x+player.width : ai.x - this.side;
+		this.y = (HEIGHT - this.side)*r;
+		// calculate out-angle, higher/lower on the y-axis =>
+		// steeper angle
+		var phi = 0.1*pi*(1 - 2*r);
+		// set velocity direction and magnitude
+		this.vel = {
+			x: side*this.speed*Math.cos(phi),
+			y: this.speed*Math.sin(phi)
+		}
+	},
+
+	/**
+	 * Update the ball position and keep it within the canvas
+	 */
+	update: function() {
+		// update position with current velocity
+		this.x += this.vel.x;
+		this.y += this.vel.y;
+		// check if out of the canvas in the y direction
+		if (0 > this.y || this.y+this.side > HEIGHT) {
+			// calculate and add the right offset, i.e. how far
+			// inside of the canvas the ball is
+			var offset = this.vel.y < 0 ? 0 - this.y : HEIGHT - (this.y+this.side);
+			this.y += 2*offset;
+			// mirror the y velocity
+			this.vel.y *= -1;
+		}
+		// helper function to check intesectiont between two
+		// axis aligned bounding boxex (AABB)
+		var AABBIntersect = function(ax, ay, aw, ah, bx, by, bw, bh) {
+			return ax < bx+bw && ay < by+bh && bx < ax+aw && by < ay+ah;
+		};
+
+		// check againts target paddle to check collision in x
+		// direction
+		var pdle = this.vel.x < 0 ? player : ai;
+		if (AABBIntersect(pdle.x, pdle.y, pdle.width, pdle.height,
+				this.x, this.y, this.side, this.side)
+		) {	
+			// set the x position and calculate reflection angle
+			this.x = pdle===player ? player.x+player.width : ai.x - this.side;
+			var n = (this.y+this.side - pdle.y)/(pdle.height+this.side);
+			var phi = 0.25*pi*(2*n - 1); // pi/4 = 45
+			// calculate smash value and update velocity
+			var smash = Math.abs(phi) > 0.2*pi ? 1.5 : 1;
+			this.vel.x = smash*(pdle===player ? 1 : -1)*this.speed*Math.cos(phi);
+			this.vel.y = smash*this.speed*Math.sin(phi);
+		}
+
+		// reset the ball when ball outside of the canvas in the
+		// x direction
+		if (0 > this.x+this.side || this.x > WIDTH) {
+			this.serve(pdle===player ? 1 : -1);
+		}
+	},
+
+	/**
+	 * Draw the ball to the canvas
+	 */
+	draw: function() {
+		ctx.fillRect(this.x, this.y, this.side, this.side);
+	}
 };
-const rightPaddle = {
-  // start in the middle of the game on the right side
-  x: canvas.width - grid * 3,
-  y: canvas.height / 2 - paddleHeight / 2,
-  width: grid,
-  height: paddleHeight,
 
-  // paddle velocity
-  dy: 0
-};
-const ball = {
-  // start in the middle of the game
-  x: canvas.width / 2,
-  y: canvas.height / 2,
-  width: grid,
-  height: grid,
+/**
+ * Starts the game
+ */
+function main() {
+	// create, initiate and append game canvas
+	canvas = document.createElement("canvas");
+	canvas.width = WIDTH;
+	canvas.height = HEIGHT;
+	ctx = canvas.getContext("2d");
+	document.body.appendChild(canvas);
 
-  // keep track of when need to reset the ball position
-  resetting: false,
+	keystate = {};
+	// keep track of keyboard presses
+	document.addEventListener("keydown", function(evt) {
+		keystate[evt.keyCode] = true;
+	});
+	document.addEventListener("keyup", function(evt) {
+		delete keystate[evt.keyCode];
+	});
 
-  // ball velocity (start going to the top-right corner)
-  dx: ballSpeed,
-  dy: -ballSpeed
-};
+	init(); // initiate game objects
 
-// check for collision between two objects using axis-aligned bounding box (AABB)
-// @see https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-function collides(obj1, obj2) {
-  return obj1.x < obj2.x + obj2.width &&
-         obj1.x + obj1.width > obj2.x &&
-         obj1.y < obj2.y + obj2.height &&
-         obj1.y + obj1.height > obj2.y;
+	// game loop function
+	var loop = function() {
+		update();
+		draw();
+
+		window.requestAnimationFrame(loop, canvas);
+	};
+	window.requestAnimationFrame(loop, canvas);
 }
 
-// game loop
-function loop() {
-  requestAnimationFrame(loop);
-  context.clearRect(0,0,canvas.width,canvas.height);
+/**
+ * Initatite game objects and set start positions
+ */
+function init() {
+	player.x = player.width;
+	player.y = (HEIGHT - player.height)/2;
 
-  // move paddles by their velocity
-  leftPaddle.y += leftPaddle.dy;
-  rightPaddle.y += rightPaddle.dy;
+	ai.x = WIDTH - (player.width + ai.width);
+	ai.y = (HEIGHT - ai.height)/2;
 
-  // prevent paddles from going through walls
-  if (leftPaddle.y < grid) {
-    leftPaddle.y = grid;
-  }
-  else if (leftPaddle.y > maxPaddleY) {
-    leftPaddle.y = maxPaddleY;
-  }
-
-  if (rightPaddle.y < grid) {
-    rightPaddle.y = grid;
-  }
-  else if (rightPaddle.y > maxPaddleY) {
-    rightPaddle.y = maxPaddleY;
-  }
-
-  // draw paddles
-  context.fillStyle = 'white';
-  context.fillRect(leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height);
-  context.fillRect(rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height);
-
-  // move ball by its velocity
-  ball.x += ball.dx;
-  ball.y += ball.dy;
-
-  // prevent ball from going through walls by changing its velocity
-  if (ball.y < grid) {
-    ball.y = grid;
-    ball.dy *= -1;
-  }
-  else if (ball.y + grid > canvas.height - grid) {
-    ball.y = canvas.height - grid * 2;
-    ball.dy *= -1;
-  }
-
-  // reset ball if it goes past paddle (but only if we haven't already done so)
-  if ( (ball.x < 0 || ball.x > canvas.width) && !ball.resetting) {
-    ball.resetting = true;
-
-    // give some time for the player to recover before launching the ball again
-    setTimeout(() => {
-      ball.resetting = false;
-      ball.x = canvas.width / 2;
-      ball.y = canvas.height / 2;
-    }, 400);
-  }
-
-  // check to see if ball collides with paddle. if they do change x velocity
-  if (collides(ball, leftPaddle)) {
-    ball.dx *= -1;
-
-    // move ball next to the paddle otherwise the collision will happen again
-    // in the next frame
-    ball.x = leftPaddle.x + leftPaddle.width;
-  }
-  else if (collides(ball, rightPaddle)) {
-    ball.dx *= -1;
-
-    // move ball next to the paddle otherwise the collision will happen again
-    // in the next frame
-    ball.x = rightPaddle.x - ball.width;
-  }
-
-  // draw ball
-  context.fillRect(ball.x, ball.y, ball.width, ball.height);
-
-  // draw walls
-  context.fillStyle = 'lightgrey';
-  context.fillRect(0, 0, canvas.width, grid);
-  context.fillRect(0, canvas.height - grid, canvas.width, canvas.height);
-
-  // draw dotted line down the middle
-  for (let i = grid; i < canvas.height - grid; i += grid * 2) {
-    context.fillRect(canvas.width / 2 - grid / 2, i, grid, grid);
-  }
+	ball.serve(1);
 }
 
-// listen to keyboard events to move the paddles
-document.addEventListener('keydown', function(e) {
+/**
+ * Update all game objects
+ */
+function update() {
+	ball.update();
+	player.update();
+	ai.update();
+}
 
-  // up arrow key
-  if (e.which === 38) {
-    rightPaddle.dy = -paddleSpeed;
-  }
-  // down arrow key
-  else if (e.which === 40) {
-    rightPaddle.dy = paddleSpeed;
-  }
+/**
+ * Clear canvas and draw all game objects and net
+ */
+function draw() {
+	ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-  // w key
-  if (e.which === 87) {
-    leftPaddle.dy = -paddleSpeed;
-  }
-  // a key
-  else if (e.which === 83) {
-    leftPaddle.dy = paddleSpeed;
-  }
-});
+	ctx.save();
 
-// listen to keyboard events to stop the paddle if key is released
-document.addEventListener('keyup', function(e) {
-  if (e.which === 38 || e.which === 40) {
-    rightPaddle.dy = 0;
-  }
+	ctx.fillStyle = "#fff";
 
-  if (e.which === 83 || e.which === 87) {
-    leftPaddle.dy = 0;
-  }
-});
+	ball.draw();
+	player.draw();
+	ai.draw();
 
-// start the game
-requestAnimationFrame(loop);
+	// draw the net
+	var w = 4;
+	var x = (WIDTH - w)*0.5;
+	var y = 0;
+	var step = HEIGHT/20; // how many net segments
+	while (y < HEIGHT) {
+		ctx.fillRect(x, y+step*0.25, w, step*0.5);
+		y += step;
+	}
+
+	ctx.restore();
+}
+
+// start and run the game
+main();
 </script>
 </body>
 </html>
