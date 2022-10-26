@@ -94,9 +94,7 @@
 
     // load in functions, game set up
     window.onload = function() {
-        document.getElementById("bet").innerText = bet;
-        document.getElementById("score").innerText = score;
-        canBet = true;
+        reset();
         betFunction();
     }
 
@@ -104,7 +102,8 @@
         let betted = false;
         document.getElementById("up").addEventListener("click", up);
         document.getElementById("down").addEventListener("click", down);
-
+        document.getElementById("reset").addEventListener("click", reset);
+        
         bet = document.getElementById('bet').innerText;
         sco = document.getElementById('score').innerText;
         console.log("bet"+bet+"score"+sco);
@@ -137,7 +136,22 @@
     }
 
     function reset(){
-        location.reload();
+        //location.reload();
+        dealerSum = 0;
+        yourSum = 0;
+        dealerAce = 0;
+        yourAce = 0; 
+        hidden;
+        deck;
+        canHit = true;
+        bet = 100;
+        score = 0;
+        canBet = true;
+        document.getElementById("bet").innerText = bet;
+        document.getElementById("score").innerText = score;
+        document.getElementById("results").innerText = "";
+        document.getElementById("dealer-sum").innerText = "";
+        document.getElementById("your-sum").innerText = "";
     }
 
     // the deck, no shuffled
