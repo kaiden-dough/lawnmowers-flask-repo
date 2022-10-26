@@ -38,6 +38,14 @@
       </style>
       <!-- frontend stuff -->
     <body class="body">
+        <button class="button" id="up" width="100" height="50">+</button>
+        <h2>
+            Bet: <span id="bet"><span>
+        </h2>
+        <button class="button" id="down" width="100" height="50">-</button>
+        <h2>
+            Score: <span id="score"><span>
+        </h2>
         <h2>
             Dealer: <span id="dealer-sum"><span>
         </h2>
@@ -80,16 +88,70 @@
     var deck;
     // if the player sum is less than 21
     var canHit = true;
+    var bet = 100;
+    var score = 0;
+    var canBet = true;
 
     // load in functions, game set up
     window.onload = function() {
-        buildDeck();
-        shuffleDeck();
-        startGame();
+        document.getElementById("bet").innerText = bet;
+        document.getElementById("score").innerText = score;
+        reset();
+        betFunction();
+        
+    }
+
+    function betFunction() {
+        let betted = false;
+        document.getElementById("up").addEventListener("click", up);
+        document.getElementById("down").addEventListener("click", down);
+        document.getElementById("reset").addEventListener("click", reset);
+        
+        bet = document.getElementById('bet').innerText;
+        sco = document.getElementById('score').innerText;
+        console.log("bet"+bet+"score"+sco);
+
+        if (betted = true) {
+            buildDeck();
+            shuffleDeck();
+            startGame();
+        }
+    }
+
+    function up(){
+        if (!canBet) {
+            return;
+        }
+        if ((parseInt(bet)<500) && (canBet = true)){
+            bet = parseInt(bet) + 50
+        }
+        document.getElementById("bet").innerText = bet;
+    }
+
+    function down(){
+        if (!canBet) {
+            return;
+        }
+        if ((parseInt(bet)>50)){
+            bet = parseInt(bet) - 50
+        }
+        document.getElementById("bet").innerText = bet;
     }
 
     function reset(){
-        location.reload();
+        //location.reload();
+        dealerSum = 0;
+        yourSum = 0;
+        dealerAce = 0;
+        yourAce = 0; 
+        hidden;
+        deck;
+        canHit = true;
+        canBet = true;
+        document.getElementById("results").innerText = "";
+        document.getElementById("dealer-sum").innerText = "";
+        document.getElementById("your-sum").innerText = "";       
+          
     }
 
     // the deck, no shuffled
@@ -158,6 +220,8 @@
     }
 
     function hit() {
+        canBet = false;
+        console.log(canBet);
         //alert("hit") //see if the button works
         if (!canHit) { //if cannot hit then it doesn't let you
             return; 
@@ -182,8 +246,8 @@
         console.log("Player:"+reduceAce(yourSum, yourAce));
     }
     function stand() {
-        
-
+        canBet = true;
+        console.log(canBet);
         while (dealerSum < 17) { //dealer must keep hitting if sum is less than 17
             let cardImg = document.createElement("img"); // this was supposed to make new cards appear
             let card = deck.pop();
@@ -210,23 +274,28 @@
         let message = "";
         if (yourSum > 21) { //over 21 u lose
             message = "You Lose!";
+            score -= parseInt(bet);
         }
         else if (dealerSum > 21) { //dealer over, but you not u win
             message = "You win!";
+            score += parseInt(bet);
         }
         else if (yourSum == dealerSum) { // if both equal 21, a tie
             message = "Tie!";
         }
         else if (yourSum > dealerSum) { // not above or 21, and greater than dealer = u win
             message = "You Win!";
+            score += parseInt(bet);
         }
         else if (yourSum < dealerSum) { // below dealer, u lose
             message = "You Lose!";
+            score -= parseInt(bet);
         }
         console.log(message);
         document.getElementById("dealer-sum").innerText = dealerSum; //display score and sums
         document.getElementById("your-sum").innerText = yourSum;
         document.getElementById("results").innerText = message;
+        document.getElementById("score").innerText = score;
         //alert("stand") //see if the button works
     }
 
