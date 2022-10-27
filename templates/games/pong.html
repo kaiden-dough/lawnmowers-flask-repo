@@ -1,13 +1,24 @@
-{% extends "layouts/base.html" %} <!-- To keep the same format and navbar -->
+{% extends "layouts/base.html" %}
 {% set project = "pong" %}
 {% block body %}
 <!doctype html>
 <html lang="en">
+<body>
+	<style>
+		.fix{
+			position:fixed;
+			bottom:0px;
+			left:o%;
+		}
+	</style>	
+	<img src="/static/assets/gr.png" width="1560" height="900" class="fix"/>
+</body>
 <head>
 	<meta charset="UTF-8">
 	<title>Pong</title>
 
-	<!-- Basic styling, centering the canvas -->
+<!-- css portion -->
+
 	<style>
 	canvas {
 		display: block;
@@ -22,31 +33,25 @@
 </head>
 <body>
 <script>
+
+// variables and constants, utilizing math
+	
 var
 
-/**
- * Constants
- */
-WIDTH  = 700,
-HEIGHT = 600,
+WIDTH  = 1540,
+HEIGHT = 590,
 
 pi = Math.PI,
 
 UpArrow   = 38,
 DownArrow = 40,
 
-/**
- * Game elements
- */
+// elements
+
 canvas,
 ctx,
 keystate,
 
-/**
- * The player paddle
- * 
- * @type {Object}
- */
 player = {
 	x: null,
 	y: null,
@@ -54,29 +59,21 @@ player = {
 	width:  20,
 	height: 100,
 
-	/**
-	 * Update the position depending on pressed keys
-	 */
+	// hotkeys
+
 	update: function() {
 		if (keystate[UpArrow]) this.y -= 7;
 		if (keystate[DownArrow]) this.y += 7;
-		// keep the paddle inside of the canvas
 		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
 	},
 
-	/**
-	 * Draw the player paddle to the canvas
-	 */
 	draw: function() {
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
 },
 
-/**
- * The ai paddle
- * 
- * @type {Object}
- */
+// ai
+
 ai = {
 	x: null,
 	y: null,
@@ -84,31 +81,19 @@ ai = {
 	width:  20,
 	height: 100,
 
-	/**
-	 * Update the position depending on the ball position
-	 */
 	update: function() {
-		// calculate ideal position
 		var desty = ball.y - (this.height - ball.side)*0.5;
-		// ease the movement towards the ideal position
 		this.y += (desty - this.y) * 0.1;
-		// keep the paddle inside of the canvas
 		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
 	},
 
-	/**
-	 * Draw the ai paddle to the canvas
-	 */
 	draw: function() {
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
 },
 
-/**	
- * The ball object
- * 
- * @type {Object}
- */
+// ball
+
 ball = {
 	x:   null,
 	y:   null,
