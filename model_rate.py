@@ -15,14 +15,6 @@ def initRate():
     for item in rate_list:
         rate_data.append({"id": item_id, "rate": item, "yes": 0, "no": 0})
         item_id += 1
-    # prime some true responses
-    for i in range(10):
-        id = getRandomRate()['id']
-        addRateYes(id)
-    # prime some false responses
-    for i in range(5):
-        id = getRandomRate()['id']
-        addRateNo(id)
         
 # Return all jokes from jokes_data
 def getRates():
