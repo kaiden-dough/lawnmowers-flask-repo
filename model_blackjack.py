@@ -64,31 +64,31 @@ def addRateYes(id):
 # Add to boohoo for requested id
 def addRateNo(id):
     rate_data[id]['no'] = rate_data[id]['no'] + 1
-    return rate_data[id]['false']
+    return rate_data[id]['no']
 
 # Pretty Print joke
-def printTrfa(trfa):
-    print(trfa['id'], trfa['joke'], "\n", "true:", trfa['true'], "\n", "false:", trfa['false'], "\n")
+def printRate(rate):
+    print(rate['id'], rate['rate'], "\n", "yes:", rate['yes'], "\n", "no:", rate['no'], "\n")
 
 # Number of jokes
-def countTrfa():
-    return len(trfa_data)
+def countRate():
+    return len(rate_data)
 
 # Test Joke Model
 if __name__ == "__main__": 
-    initTrfa()  # initialize jokes
+    initRate()  # initialize jokes
     
     # Most likes and most jeered
-    best = favoriteTrfa()
-    print("Most liked", best['true'])
-    printTrfa(best)
-    worst = worstTrfa()
-    print("Most disliked", worst['false'])
-    printTrfa(worst)
+    best = favoriteRate()
+    print("Most liked", best['yes'])
+    printRate(best)
+    worst = worstRate()
+    print("Most disliked", worst['no'])
+    printRate(worst)
     
     # Random joke
-    print("Random True or False Question")
-    printTrfa(getRandomTrfa())
+    print("Random Game Rating")
+    printRate(getRandomRate())
     
     # Count of Jokes
-    print("True/False Count: " + str(countTrfa()))
+    print("Rate Count: " + str(countRate()))
