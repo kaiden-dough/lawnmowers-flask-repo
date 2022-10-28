@@ -46,7 +46,7 @@ class TrfaAPI:
             return jsonify(getTrfa(id))
 
     # put method: addJokeBooHoo
-    class _UpdateJeer(Resource):
+    class _UpdateWorst(Resource):
         def put(self, id):
             addTrfaFalse(id)
             return jsonify(getTrfa(id))
@@ -58,7 +58,7 @@ class TrfaAPI:
     api1.add_resource(_ReadRandom, '/random')
     api1.add_resource(_ReadCount, '/count')
     api1.add_resource(_UpdateLike, '/like/<int:id>')
-    api1.add_resource(_UpdateJeer, '/worst/<int:id>')
+    api1.add_resource(_UpdateWorst, '/worst/<int:id>')
     
 if __name__ == "__main__": 
     server = 'https://lawnmowers.nighthawkcodescrums.gq' # run local

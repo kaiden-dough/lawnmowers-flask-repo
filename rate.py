@@ -11,7 +11,7 @@ app_api = Blueprint('apirate', __name__,
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
 api = Api(app_api)
 
-class BlackjackAPI:
+class RateAPI:
     # not implemented
     class _Create(Resource):
         def post(self, rate):
@@ -20,50 +20,50 @@ class BlackjackAPI:
     # getJokes()
     class _Read(Resource):
         def get(self):
-            return jsonify(getTrfas())
+            return jsonify(getRates())
 
     # getJoke(id)
     class _ReadID(Resource):
         def get(self, id):
-            return jsonify(getTrfa(id))
+            return jsonify(getRate(id))
 
     # getRandomJoke()
     class _ReadRandom(Resource):
         def get(self):
-            return jsonify(getRandomTrfa())
+            return jsonify(getRandomRate())
     
     # getRandomJoke()
     class _ReadCount(Resource):
         def get(self):
-            count = countTrfa()
+            count = countRate()
             countMsg = {'count': count}
             return jsonify(countMsg)
 
     # put method: addJokeHaHa
     class _UpdateLike(Resource):
         def put(self, id):
-            addTrfaTrue(id)
-            return jsonify(getTrfa(id))
+            addRateYes(id)
+            return jsonify(getRate(id))
 
     # put method: addJokeBooHoo
     class _UpdateJeer(Resource):
         def put(self, id):
-            addTrfaFalse(id)
-            return jsonify(getTrfa(id))
+            addRateNo(id)
+            return jsonify(getRate(id))
 
     # building RESTapi resources/interfaces, these routes are added to Web Server
-    api1.add_resource(_Create, '/create/<string:trfa>')
-    api1.add_resource(_Read, '/')
-    api1.add_resource(_ReadID, '/<int:id>')
-    api1.add_resource(_ReadRandom, '/random')
-    api1.add_resource(_ReadCount, '/count')
-    api1.add_resource(_UpdateLike, '/like/<int:id>')
-    api1.add_resource(_UpdateJeer, '/worst/<int:id>')
+    api.add_resource(_Create, '/create/<string:rate>')
+    api.add_resource(_Read, '/')
+    api.add_resource(_ReadID, '/<int:id>')
+    api.add_resource(_ReadRandom, '/random')
+    api.add_resource(_ReadCount, '/count')
+    api.add_resource(_UpdateLike, '/like/<int:id>')
+    api.add_resource(_UpdateJeer, '/worst/<int:id>')
     
 if __name__ == "__main__": 
     server = 'https://lawnmowers.nighthawkcodescrums.gq' # run local
     # server = 'https://flask.nighthawkcodingsociety.com' # run from web
-    url = server + "/api/trfa"
+    url = server + "/api/rate"
     responses = []  # responses list
 
     # get count of jokes on server
