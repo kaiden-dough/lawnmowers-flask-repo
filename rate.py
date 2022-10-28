@@ -5,11 +5,11 @@ import random
 
 from model_rate import *
 
-app_api = Blueprint('apirate', __name__,
+app_api2 = Blueprint('apirate', __name__,
                    url_prefix='/api/rate')
 
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
-api = Api(app_api)
+api2 = Api(app_api2)
 
 class RateAPI:
     # not implemented
@@ -51,14 +51,14 @@ class RateAPI:
             addRateNo(id)
             return jsonify(getRate(id))
 
-    # building RESTapi resources/interfaces, these routes are added to Web Server
-    api.add_resource(_Create, '/create/<string:rate>')
-    api.add_resource(_Read, '/')
-    api.add_resource(_ReadID, '/<int:id>')
-    api.add_resource(_ReadRandom, '/random')
-    api.add_resource(_ReadCount, '/count')
-    api.add_resource(_UpdateLike, '/like/<int:id>')
-    api.add_resource(_UpdateJeer, '/worst/<int:id>')
+    # 2building RESTapi resources/interfaces, these routes are added to Web Server
+    api2.add_resource(_Create, '/create/<string:rate>')
+    api2.add_resource(_Read, '/')
+    api2.add_resource(_ReadID, '/<int:id>')
+    api2.add_resource(_ReadRandom, '/random')
+    api2.add_resource(_ReadCount, '/count')
+    api2.add_resource(_UpdateLike, '/like/<int:id>')
+    api2.add_resource(_UpdateJeer, '/worst/<int:id>')
     
 if __name__ == "__main__": 
     server = 'https://lawnmowers.nighthawkcodescrums.gq' # run local
