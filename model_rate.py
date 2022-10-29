@@ -28,6 +28,18 @@ def getRate(id):
 def getRandomRate():
     return(random.choice(rate_data))
 
+def getPongRate():
+    return(rate_data[0])
+
+def getBlackjackRate():
+    return(rate_data[1])
+
+def getSnakeRate():
+    return(rate_data[2])
+
+def getJokeboxRate():
+    return(rate_data[3])
+
 # Liked joke
 def favoriteRate():
     best = 0
@@ -43,7 +55,7 @@ def worstRate():
     worst = 0
     worstID = -1
     for rate in getRates():
-        if rate['false'] > worst:
+        if rate['no'] > worst:
             worst = rate['no']
             worstID = rate['id']
     return rate_data[worstID]
@@ -84,3 +96,8 @@ if __name__ == "__main__":
     
     # Count of Jokes
     print("Rate Count: " + str(countRate()))
+    
+    printRate(getPongRate())
+    printRate(getBlackjackRate())
+    printRate(getSnakeRate())
+    printRate(getJokeboxRate())

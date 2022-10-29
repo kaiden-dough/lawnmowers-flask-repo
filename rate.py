@@ -28,9 +28,28 @@ class RateAPI:
             return jsonify(getRate(id))
 
     # getRandomJoke()
+    
+    
     class _ReadRandom(Resource):
         def get(self):
             return jsonify(getRandomRate())
+    
+    class _ReadPong(Resource):
+        def get(self):
+            return jsonify(getPongRate())
+    
+    class _ReadBlackjack(Resource):
+        def get(self):
+            return jsonify(getBlackjackRate())
+    
+    class _ReadSnake(Resource):
+        def get(self):
+            return jsonify(getSnakeRate())
+    
+    class _ReadJokebox(Resource):
+        def get(self):
+            return jsonify(getJokeboxRate())
+        
     
     # getRandomJoke()
     class _ReadCount(Resource):
@@ -56,6 +75,10 @@ class RateAPI:
     api2.add_resource(_Read, '/')
     api2.add_resource(_ReadID, '/<int:id>')
     api2.add_resource(_ReadRandom, '/random')
+    api2.add_resource(_ReadPong, '/pong')
+    api2.add_resource(_ReadBlackjack, '/blackjack')
+    api2.add_resource(_ReadSnake, '/snake')
+    api2.add_resource(_ReadJokebox, '/jokebox')
     api2.add_resource(_ReadCount, '/count')
     api2.add_resource(_UpdateLike, '/like/<int:id>')
     api2.add_resource(_UpdateJeer, '/worst/<int:id>')
