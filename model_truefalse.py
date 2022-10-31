@@ -30,13 +30,13 @@ def initTrfa():
         trfa_data.append({"id": item_id, "trfa": item, "true": 0, "false": 0})
         item_id += 1
     # prime some true responses
-    for i in range(10):
-        id = getRandomTrfa()['id']
-        addTrfaTrue(id)
-    # prime some false responses
-    for i in range(5):
-        id = getRandomTrfa()['id']
-        addTrfaFalse(id)
+    # for i in range(10):
+    #     id = getRandomTrfa()['id']
+    #     addTrfaTrue(id)
+    # # prime some false responses
+    # for i in range(5):
+    #     id = getRandomTrfa()['id']
+    #     addTrfaFalse(id)
         
 # Return all jokes from jokes_data
 def getTrfas():

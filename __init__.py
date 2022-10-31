@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from model_jokes import initJokes
 from model_truefalse import initTrfa
+from model_rate import initRate
 
 """
 These object can be used throughout project.
@@ -25,3 +26,4 @@ Migrate(app, db)
 def activate_job():
     initJokes()
     initTrfa()
+    initRate()

@@ -3,67 +3,90 @@ from flask_restful import Api, Resource # used for REST API building
 import requests  # used for testing 
 import random
 
-from model_truefalse import *
+from model_rate import *
 
-app_api1 = Blueprint('apitf', __name__,
-                   url_prefix='/api/trfa')
+app_api2 = Blueprint('apirate', __name__,
+                   url_prefix='/api/rate')
 
 # API generator https://flask-restful.readthedocs.io/en/latest/api.html#id1
-api1 = Api(app_api1)
+api2 = Api(app_api2)
 
-class TrfaAPI:
+class RateAPI:
     # not implemented
     class _Create(Resource):
-        def post(self, trfa):
+        def post(self, rate):
             pass
             
     # getJokes()
     class _Read(Resource):
         def get(self):
-            return jsonify(getTrfas())
+            return jsonify(getRates())
 
     # getJoke(id)
     class _ReadID(Resource):
         def get(self, id):
-            return jsonify(getTrfa(id))
+            return jsonify(getRate(id))
 
     # getRandomJoke()
+    
+    
     class _ReadRandom(Resource):
         def get(self):
-            return jsonify(getRandomTrfa())
+            return jsonify(getRandomRate())
+    
+    class _ReadPong(Resource):
+        def get(self):
+            return jsonify(getPongRate())
+    
+    class _ReadBlackjack(Resource):
+        def get(self):
+            return jsonify(getBlackjackRate())
+    
+    class _ReadSnake(Resource):
+        def get(self):
+            return jsonify(getSnakeRate())
+    
+    class _ReadJokebox(Resource):
+        def get(self):
+            return jsonify(getJokeboxRate())
+        
     
     # getRandomJoke()
     class _ReadCount(Resource):
         def get(self):
-            count = countTrfa()
+            count = countRate()
             countMsg = {'count': count}
             return jsonify(countMsg)
 
     # put method: addJokeHaHa
     class _UpdateLike(Resource):
         def put(self, id):
-            addTrfaTrue(id)
-            return jsonify(getTrfa(id))
+            addRateYes(id)
+            return jsonify(getRate(id))
 
     # put method: addJokeBooHoo
-    class _UpdateWorst(Resource):
+    class _UpdateJeer(Resource):
         def put(self, id):
-            addTrfaFalse(id)
-            return jsonify(getTrfa(id))
+            addRateNo(id)
+            return jsonify(getRate(id))
 
-    # building RESTapi resources/interfaces, these routes are added to Web Server
-    api1.add_resource(_Create, '/create/<string:trfa>')
-    api1.add_resource(_Read, '/')
-    api1.add_resource(_ReadID, '/<int:id>')
-    api1.add_resource(_ReadRandom, '/random')
-    api1.add_resource(_ReadCount, '/count')
-    api1.add_resource(_UpdateLike, '/like/<int:id>')
-    api1.add_resource(_UpdateWorst, '/worst/<int:id>')
+    # 2building RESTapi resources/interfaces, these routes are added to Web Server
+    api2.add_resource(_Create, '/create/<string:rate>')
+    api2.add_resource(_Read, '/')
+    api2.add_resource(_ReadID, '/<int:id>')
+    api2.add_resource(_ReadRandom, '/random')
+    api2.add_resource(_ReadPong, '/pong')
+    api2.add_resource(_ReadBlackjack, '/blackjack')
+    api2.add_resource(_ReadSnake, '/snake')
+    api2.add_resource(_ReadJokebox, '/jokebox')
+    api2.add_resource(_ReadCount, '/count')
+    api2.add_resource(_UpdateLike, '/like/<int:id>')
+    api2.add_resource(_UpdateJeer, '/worst/<int:id>')
     
 if __name__ == "__main__": 
     server = 'https://lawnmowers.nighthawkcodescrums.gq' # run local
     # server = 'https://flask.nighthawkcodingsociety.com' # run from web
-    url = server + "/api/trfa"
+    url = server + "/api/rate"
     responses = []  # responses list
 
     # get count of jokes on server
