@@ -2,16 +2,15 @@
 {% set project = "pong" %}
 {% block body %}
 <!doctype html>
-<html lang="en">
 <body>
 	<style>
 		.fix{
 			position:fixed;
-			bottom:0px;
+			bottom: -10px;
 			left:o%;
 		}
 	</style>	
-	<img src="/static/assets/gr.png" width="1560" height="900" class="fix"/>
+	<img src="/static/assets/grr.png" width="1540" height="600" class="fix"/>
 </body>
 <head>
 	<meta charset="UTF-8">
@@ -43,8 +42,8 @@ HEIGHT = 590,
 
 pi = Math.PI,
 
-UpArrow   = 38,
-DownArrow = 40,
+WKey   = 87,
+SKey = 83,
 
 // elements
 
@@ -62,8 +61,8 @@ player = {
 	// hotkeys
 
 	update: function() {
-		if (keystate[UpArrow]) this.y -= 7;
-		if (keystate[DownArrow]) this.y += 7;
+		if (keystate[WKey]) this.y -= 7;
+		if (keystate[SKey]) this.y += 7;
 		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
 	},
 
