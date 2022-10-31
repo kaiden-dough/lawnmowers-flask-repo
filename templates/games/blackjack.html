@@ -96,13 +96,24 @@
     window.onload = function() {
         document.getElementById("bet").innerText = bet;
         document.getElementById("score").innerText = score;
-        reset();
+        dealerSum = 0;
+        yourSum = 0;
+        dealerAce = 0;
+        yourAce = 0; 
+        hidden;
+        deck;
+        canHit = true;
+        canBet = true;
+        document.getElementById("results").innerText = "";
+        document.getElementById("dealer-sum").innerText = "";
+        document.getElementById("your-sum").innerText = "";
         betFunction();
-        
+        buildDeck();
+        shuffleDeck();
+        startGame();
     }
 
     function betFunction() {
-        let betted = false;
         document.getElementById("up").addEventListener("click", up);
         document.getElementById("down").addEventListener("click", down);
         document.getElementById("reset").addEventListener("click", reset);
@@ -111,11 +122,7 @@
         sco = document.getElementById('score').innerText;
         console.log("bet"+bet+"score"+sco);
 
-        if (betted = true) {
-            buildDeck();
-            shuffleDeck();
-            startGame();
-        }
+        
     }
 
     function up(){
@@ -150,8 +157,24 @@
         canBet = true;
         document.getElementById("results").innerText = "";
         document.getElementById("dealer-sum").innerText = "";
-        document.getElementById("your-sum").innerText = "";       
-          
+        document.getElementById("your-sum").innerText = "";
+        var dealercard = document.getElementById('dealer-cards');
+        var dealernum = $(dealercard).children().length;
+        alert(dealernum);
+        while(dealernum != 1){
+            dealercard.removeChild(dealercard.lastChild);
+            dealernum = $(dealercard).children().length; 
+        }       
+        var playercard = document.getElementById('your-cards');
+        var playernum = $(playercard).children().length;
+        alert(playernum);
+        while(playernum != 0){
+            playercard.removeChild(playercard.lastChild);
+            playernum = $(playercard).children().length; 
+        }    
+        buildDeck();
+        shuffleDeck();
+        startGame();
     }
 
     // the deck, no shuffled
